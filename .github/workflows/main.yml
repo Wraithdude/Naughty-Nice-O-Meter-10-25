@@ -7,39 +7,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Python
-      uses: actions/setup-python@v4
+    - name: Build with Kivy Buildozer
+      uses: ArtemSBulgakov/buildozer-action@v1
+      id: buildozer
       with:
-        python-version: '3.10'
-        
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '11'
-        
-    - name: Install system dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y git zip unzip build-essential libssl-dev libffi-dev python3-dev libtool automake autoconf
-        
-    - name: Install Python dependencies
-      run: |
-        pip install buildozer kivy cython
-        
-    - name: Accept Android SDK licenses
-      run: |
-        mkdir -p ~/.android
-        echo 'count=0' > ~/.android/repositories.cfg
-        
-    - name: Build AAB with license acceptance
-      run: |
-        export ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
-        export PATH=$PATH:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
-        yes | buildozer android release
+        command: buildozer android release
+        repository_root: .
+        workdir: .
         
     - name: Upload AAB
       uses: actions/upload-artifact@v4
       with:
         name: app-aab
-        path: bin/*.aab
+        path: .buildozer/android/platform/build-*/bin/*.aab
