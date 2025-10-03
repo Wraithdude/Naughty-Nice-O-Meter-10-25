@@ -50,6 +50,9 @@ android.ndk = 25b
 # (list) Android architectures
 android.archs = arm64-v8a, armeabi-v7a
 
+# (str) Release artifact type: aab (Android App Bundle) or apk 
+android.release_artifact = aab
+
 # (list) Requirements separated by commas
 requirements = python3==3.10.18, kivy==2.3.0, Cython==0.29.33
 
@@ -65,4 +68,3 @@ android.copy_libs = True
 
 # (bool) Enable debug
 log_level = 2
-
