@@ -1,0 +1,58 @@
+<AnimatedButton@Button>:
+    scale: 1.0
+    on_press: self.scale = 0.92
+    on_release: self.scale = 1.0
+    canvas.before:
+        PushMatrix
+        Scale:
+            origin: self.center
+            x: self.scale
+            y: self.scale
+    canvas.after:
+        PopMatrix
+
+FloatLayout:
+    # Background scanner overlay (full screen)
+    Image:
+        source: 'assets/images/scanner-layer4.png'
+        size_hint: 1, 1
+        pos_hint: {"x": 0, "y": 0}
+
+    # Gauge face
+    Image:
+        id: gauge_face
+        source: 'assets/images/scanner-layer2.png'
+        size_hint: 0.6, 0.25
+        pos_hint: {"center_x": 0.5, "top": 0.95}
+
+    # Rotating needle (scaled relative to gauge face)
+    RotatingNeedle:
+        id: needle
+        source: 'assets/images/scanner-layer3.png'
+        size_hint: None, None
+        size: gauge_face.width * 1.35, gauge_face.height * 1.35
+        pos_hint: {"center_x": 0.5, "center_y": 0.72}
+
+    # Reset button
+    AnimatedButton:
+        id: reset_button
+        background_normal: 'assets/images/button-reset.png'
+        size_hint: 0.3, 0.12
+        pos_hint: {"center_x": 0.5, "center_y": 0.42}
+        on_release: app.reset_app()
+
+    # Start button
+    AnimatedButton:
+        id: start_button
+        background_normal: 'assets/images/button-start.png'
+        size_hint: 0.25, 0.1
+        pos_hint: {"center_x": 0.5, "center_y": 0.1}
+        on_release: app.start_scan_sequence()
+
+    # Result label (invisible by default)
+    Label:
+        id: result_label
+        text: ""
+        opacity: 0
+        font_size: '32sp'
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
