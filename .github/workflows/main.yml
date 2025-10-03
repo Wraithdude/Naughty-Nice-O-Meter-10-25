@@ -21,7 +21,7 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt update
-        sudo apt install -y git zip unzip build-essential libssl-dev libffi-dev python3-dev
+        sudo apt install -y git zip unzip build-essential libssl-dev libffi-dev python3-dev libtool automake autoconf
         
     - name: Install Python dependencies
       run: |
