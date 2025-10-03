@@ -7,16 +7,32 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Build with Kivy Buildozer
-      uses: ArtemSBulgakov/buildozer-action@v1
-      id: buildozer
+    - name: Setup Python
+      uses: actions/setup-python@v4
       with:
-        command: buildozer android release
-        repository_root: .
-        workdir: .
+        python-version: '3.10'
+        
+    - name: Cache buildozer global directory
+      uses: actions/cache@v3
+      with:
+        path: .buildozer_global
+        key: buildozer-global-${{ hashFiles('buildozer.spec') }}
+        
+    - name: Cache buildozer directory
+      uses: actions/cache@v3
+      with:
+        path: .buildozer
+        key: ${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
+        
+    - name: Build with Buildozer
+      uses: entrofi/buildozer-action@v1.0.1
+      with:
+        workdir: ./
+        buildozer_version: master
         
     - name: Upload AAB
       uses: actions/upload-artifact@v4
+      if: success()
       with:
-        name: app-aab
-        path: .buildozer/android/platform/build-*/bin/*.aab
+        name: package
+        path: bin/*.aab
