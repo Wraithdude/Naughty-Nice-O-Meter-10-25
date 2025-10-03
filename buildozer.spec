@@ -51,7 +51,7 @@ android.ndk = 25b
 android.archs = arm64-v8a, armeabi-v7a
 
 # (list) Requirements separated by commas
-requirements = python3==3.10.13, kivy, git+https://github.com/kivy/pyjnius.git@master
+requirements = python3==3.10.18, kivy==2.3.0, Cython==0.29.33
 
 # (str) Entry point of the app for Python-for-Android
 # bootstrap = sdl2 is default, keep for Kivy
@@ -65,3 +65,4 @@ android.copy_libs = True
 
 # (bool) Enable debug
 log_level = 2
+
